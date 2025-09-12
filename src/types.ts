@@ -89,10 +89,28 @@ export type CanvasState =
         | LayerType.Ellipse
         | LayerType.Path
         | LayerType.Text;
+    }
+  | {
+      mode: CanvasMode.Pencil;
     };
 
 export enum CanvasMode {
   None,
   Dragging,
   Inserting,
+  Pencil,
 }
+
+export enum Side {
+  Top = 1,
+  Bottom = 2,
+  Left = 4,
+  Right = 8,
+}
+
+export type XYWH = {
+  x: number;
+  y: number;
+  width: number;
+  height: number;
+};

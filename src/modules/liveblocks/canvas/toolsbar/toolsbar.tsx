@@ -1,19 +1,30 @@
 import React from "react";
-import { Button } from "~/components/ui/button";
 import { CanvasMode, LayerType, type CanvasState } from "~/types";
 import SelectionButton from "./selection-button";
 import ShapeSelectionButton from "./shape-selection-button";
+import ZoomInButton from "./zoom-in-button";
+import ZoomOutButton from "./zoom-out-button";
+import PencilButton from "./pencil-button";
+import TextButton from "./text-button";
 
 export default function Toolsbar({
   canvasState,
   setCanvasState,
+  zoomIn,
+  zoomOut,
+  canZoomIn,
+  canZoomOut,
 }: {
   canvasState: CanvasState;
   setCanvasState: (newState: CanvasState) => void;
+  zoomIn: () => void;
+  zoomOut: () => void;
+  canZoomIn: boolean;
+  canZoomOut: boolean;
 }) {
   return (
     <div className="fixed bottom-4 left-1/2 z-10 flex -translate-x-1/2 items-center justify-center rounded-lg bg-white p-1 shadow">
-      <div className="flex justify-center items-center">
+      <div className="flex justify-center items-center gap-2">
         <SelectionButton
           isActive={
             canvasState.mode === CanvasMode.None ||
@@ -40,6 +51,27 @@ export default function Toolsbar({
             setCanvasState({ mode: CanvasMode.Inserting, layerType })
           }
         />
+        <PencilButton
+          isActive={canvasState.mode === CanvasMode.Pencil}
+          onClick={() => setCanvasState({ mode: CanvasMode.Pencil })}
+        />
+        <TextButton
+          isActive={
+            canvasState.mode === CanvasMode.Inserting &&
+            canvasState.layerType === LayerType.Text
+          }
+          onClick={() =>
+            setCanvasState({
+              mode: CanvasMode.Inserting,
+              layerType: LayerType.Text,
+            })
+          }
+        />
+        <div className="w-[1px] self-stretch bg-black/20" />
+        <div className="flex justify-center items-center">
+          <ZoomInButton onClick={zoomIn} disabled={!canZoomIn} />
+          <ZoomOutButton onClick={zoomOut} disabled={!canZoomOut} />
+        </div>
       </div>
     </div>
   );
