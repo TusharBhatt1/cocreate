@@ -7,7 +7,7 @@ const handleWidth = 10;
 export default function SelectionBox({
   onResizeHandlePointerDown,
 }: {
-  onResizeHandlePointerDown: (corner: Side, initialBuild: XYWH) => void;
+  onResizeHandlePointerDown: (side: Side, initialBuild: XYWH) => void;
 }) {
   const soleLayerId = useSelf((me) =>
     me.presence.selection.length === 1 ? me.presence.selection[0] : null
@@ -79,7 +79,10 @@ export default function SelectionBox({
               }px)`,
             }}
             className="fill-white stroke-[#0b99ff] stroke-[1px]"
-            onPo
+            onPointerDown={(e) => {
+              e.stopPropagation();
+              onResizeHandlePointerDown(Side.Top + Side.Left, layer);
+            }}
           />
 
           {/* Top-center */}
@@ -93,6 +96,10 @@ export default function SelectionBox({
               }px, ${layer.y - handleWidth / 2}px)`,
             }}
             className="fill-white stroke-[#0b99ff] stroke-[1px]"
+            onPointerDown={(e) => {
+              e.stopPropagation();
+              onResizeHandlePointerDown(Side.Top, layer);
+            }}
           />
 
           {/* Top-right */}
@@ -106,6 +113,10 @@ export default function SelectionBox({
               }px, ${layer.y - handleWidth / 2}px)`,
             }}
             className="fill-white stroke-[#0b99ff] stroke-[1px]"
+            onPointerDown={(e) => {
+              e.stopPropagation();
+              onResizeHandlePointerDown(Side.Top + Side.Right, layer);
+            }}
           />
 
           {/* Middle-left */}
@@ -119,6 +130,10 @@ export default function SelectionBox({
               }px)`,
             }}
             className="fill-white stroke-[#0b99ff] stroke-[1px]"
+            onPointerDown={(e) => {
+              e.stopPropagation();
+              onResizeHandlePointerDown(Side.Left, layer);
+            }}
           />
 
           {/* Middle-right */}
@@ -132,6 +147,10 @@ export default function SelectionBox({
               }px, ${layer.y + layer.height / 2 - handleWidth / 2}px)`,
             }}
             className="fill-white stroke-[#0b99ff] stroke-[1px]"
+            onPointerDown={(e) => {
+              e.stopPropagation();
+              onResizeHandlePointerDown(Side.Right, layer);
+            }}
           />
 
           {/* Bottom-left */}
@@ -145,6 +164,10 @@ export default function SelectionBox({
               }px)`,
             }}
             className="fill-white stroke-[#0b99ff] stroke-[1px]"
+            onPointerDown={(e) => {
+              e.stopPropagation();
+              onResizeHandlePointerDown(Side.Bottom + Side.Left, layer);
+            }}
           />
 
           {/* Bottom-center */}
@@ -158,6 +181,10 @@ export default function SelectionBox({
               }px, ${layer.y + layer.height - handleWidth / 2}px)`,
             }}
             className="fill-white stroke-[#0b99ff] stroke-[1px]"
+            onPointerDown={(e) => {
+              e.stopPropagation();
+              onResizeHandlePointerDown(Side.Bottom, layer);
+            }}
           />
 
           {/* Bottom-right */}
@@ -171,6 +198,10 @@ export default function SelectionBox({
               }px, ${layer.y + layer.height - handleWidth / 2}px)`,
             }}
             className="fill-white stroke-[#0b99ff] stroke-[1px]"
+            onPointerDown={(e) => {
+              e.stopPropagation();
+              onResizeHandlePointerDown(Side.Bottom + Side.Right, layer);
+            }}
           />
         </>
       )}

@@ -92,6 +92,11 @@ export type CanvasState =
     }
   | {
       mode: CanvasMode.Pencil;
+    }
+  | {
+      mode: CanvasMode.Resizing;
+      initalBounds: XYWH;
+      corner: Side;
     };
 
 export enum CanvasMode {
@@ -99,6 +104,7 @@ export enum CanvasMode {
   Dragging,
   Inserting,
   Pencil,
+  Resizing,
 }
 
 export enum Side {

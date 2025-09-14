@@ -21,14 +21,16 @@ import {
   type CanvasState,
   CanvasMode,
   type TextLayer,
+  type XYWH,
+  Side,
 } from "~/types";
 import { nanoid } from "nanoid";
 import { LiveObject } from "@liveblocks/client";
 import React, { useCallback, useState } from "react";
 import Toolsbar from "./toolsbar/toolsbar";
-import { C } from "node_modules/@liveblocks/react/dist/room-BE4TZf40";
 import Path from "./path";
 import SelectionBox from "./selection-box";
+
 const MAX_LAYERS = 200;
 
 export default function Canvas() {
@@ -45,7 +47,16 @@ export default function Canvas() {
 
   const presence = useMyPresence();
 
-  console.log(presence);
+  const onResizeHandlePointerDown = useCallback(
+    (corner: Side, initialBounds: XYWH) => {
+      setCanvasState({
+        mode: CanvasMode.Resizing,
+        initalBounds,
+        corner,
+      });
+    },
+    []
+  );
 
   const insertLayer = useMutation(
     (
