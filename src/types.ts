@@ -95,8 +95,12 @@ export type CanvasState =
     }
   | {
       mode: CanvasMode.Resizing;
-      initalBounds: XYWH;
+      initialBounds: XYWH;
       corner: Side;
+    }
+  | {
+      mode: CanvasMode.Translating;
+      current: Point;
     };
 
 export enum CanvasMode {
@@ -105,13 +109,14 @@ export enum CanvasMode {
   Inserting,
   Pencil,
   Resizing,
+  Translating, //select layers, move them around,resize
 }
 
 export enum Side {
-  Top = 1,
-  Bottom = 2,
-  Left = 4,
-  Right = 8,
+  Top = 1, //binary: 0001
+  Bottom = 2, //binary: 0010
+  Left = 4, //binary: 0100
+  Right = 8, //binary: 1000
 }
 
 export type XYWH = {

@@ -28,13 +28,27 @@ export default function Path({
   const pathData = getSvgPathFromStroke(freehandStroke);
 
   return (
-    <path
-      style={{ transform: `translate(${x}px, ${y}px)` }}
-      d={pathData}
-      fill={fill}
-      stroke={stroke}
-      strokeWidth={1}
-      opacity={`${opacity ?? 100}%`}
-    />
+    <g className="group">
+      {/* hover path */}
+      <path
+        style={{ transform: `translate(${x}px, ${y}px)` }}
+        fill="none"
+        d={pathData}
+        stroke="#0b99ff"
+        strokeWidth={4}
+        className="pointer-events-none opacity-0 group-hover:opacity-100"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+      />
+      {/* main path */}
+      <path
+        style={{ transform: `translate(${x}px, ${y}px)` }}
+        d={pathData}
+        fill={fill}
+        stroke={stroke}
+        strokeWidth={1}
+        opacity={`${opacity ?? 100}%`}
+      />
+    </g>
   );
 }

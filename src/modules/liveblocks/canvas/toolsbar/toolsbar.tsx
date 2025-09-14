@@ -6,6 +6,9 @@ import ZoomInButton from "./zoom-in-button";
 import ZoomOutButton from "./zoom-out-button";
 import PencilButton from "./pencil-button";
 import TextButton from "./text-button";
+import UndoButton from "./undo-button";
+import RedoButton from "./redo-button";
+import { useHistory } from "@liveblocks/react";
 
 export default function Toolsbar({
   canvasState,
@@ -22,6 +25,8 @@ export default function Toolsbar({
   canZoomIn: boolean;
   canZoomOut: boolean;
 }) {
+  const { undo, redo, canUndo, canRedo } = useHistory();
+  
   return (
     <div className="fixed bottom-4 left-1/2 z-10 flex -translate-x-1/2 items-center justify-center rounded-lg bg-white p-1 shadow">
       <div className="flex justify-center items-center gap-2">
@@ -71,6 +76,11 @@ export default function Toolsbar({
         <div className="flex justify-center items-center">
           <ZoomInButton onClick={zoomIn} disabled={!canZoomIn} />
           <ZoomOutButton onClick={zoomOut} disabled={!canZoomOut} />
+        </div>
+        <div className="w-[1px] self-stretch bg-black/20" />
+        <div className="flex justify-center items-center">
+          <UndoButton onClick={undo} disabled={!canUndo} />
+          <RedoButton onClick={redo} disabled={!canRedo} />
         </div>
       </div>
     </div>

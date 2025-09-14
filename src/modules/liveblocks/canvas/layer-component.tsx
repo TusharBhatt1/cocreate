@@ -3,7 +3,7 @@ import React, { memo } from "react";
 import { LayerType } from "~/types";
 import Rectangle from "./layers/rectangle";
 import Ellipse from "./layers/ellipse";
-import Path from "./path";
+import Path from "./layers/path";
 import { colorToCss } from "~/utils";
 import Text from "./layers/text";
 
