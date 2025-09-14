@@ -243,12 +243,12 @@ export default function useCanvas() {
           layerIds,
           layers,
           origin,
-          current,
+          current
         );
         setMyPresence({ selection: ids });
       }
     },
-    [layerIds],
+    [layerIds]
   );
 
   const onWheel = useCallback((e: React.WheelEvent) => {
@@ -341,9 +341,8 @@ export default function useCanvas() {
       resizeSelectedLayer,
       updateSelectionNet,
       startMultiSelection,
-    ],
+    ]
   );
-
 
   const onPointerLeave = useMutation(({ setMyPresence }) => {
     setMyPresence({ cursor: null });
@@ -375,6 +374,14 @@ export default function useCanvas() {
     [canvasState.mode, camera, canvasState.mode, history]
   );
 
+  const selectAllLayers = useMutation(
+    ({ setMyPresence }) => {
+      if (layerIds)
+        setMyPresence({ selection: [...layerIds] }, { addToHistory: true });
+    },
+    [layerIds]
+  );
+
   return {
     camera,
     canvasState,
@@ -387,5 +394,6 @@ export default function useCanvas() {
     onPointerMove,
     onPointerUp,
     onResizeHandlePointerDown,
+    selectAllLayers
   };
 }

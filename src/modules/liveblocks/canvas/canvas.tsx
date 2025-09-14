@@ -2,18 +2,23 @@
 import { useHistory, useSelf, useStorage } from "@liveblocks/react";
 import { colorToCss } from "~/utils";
 import LayerComponent from "./layer-component";
-import React from "react";
+import React, { useEffect } from "react";
 import Toolsbar from "./toolsbar/toolsbar";
 import Path from "./layers/path";
 import SelectionBox from "./selection-box";
 import useCanvas from "./hooks/useCanvas";
 import { CanvasMode } from "~/types";
+import useDeleteLayers from "./hooks/useDeleteLayers";
 
 export default function Canvas() {
   const roomColor = useStorage((root) => root.roomColor);
   const layerIds = useStorage((root) => root.layerIds);
 
   const pencilDraft = useSelf((me) => me.presence.pencilDraft);
+
+  const deleteLayers = useDeleteLayers();
+
+  const history = useHistory();
 
   const {
     camera,
@@ -27,7 +32,40 @@ export default function Canvas() {
     onPointerMove,
     onPointerUp,
     onResizeHandlePointerDown,
+    selectAllLayers,
   } = useCanvas();
+
+  useEffect(() => {
+    function onKeyDown(e: KeyboardEvent) {
+      const activeElement = document.activeElement;
+
+      const isInputField =
+        (activeElement && activeElement.tagName === "INPUT") ||
+        activeElement?.tagName === "TEXTAREA";
+
+      if (isInputField) return;
+
+      switch (e.key) {
+        case "Backspace":
+          deleteLayers();
+          break;
+        case "z":
+          if (e.ctrlKey || e.metaKey) {
+            if (e.shiftKey) history.redo();
+            else history.undo();
+          }
+          break;
+        case "a":
+          if (e.ctrlKey || e.metaKey) {
+            selectAllLayers();
+            break;
+          }
+      }
+    }
+    document.addEventListener("keydown", onKeyDown);
+
+    return () => document.removeEventListener("keydown", onKeyDown);
+  }, [deleteLayers]);
 
   return (
     <div className="h-screen w-full">

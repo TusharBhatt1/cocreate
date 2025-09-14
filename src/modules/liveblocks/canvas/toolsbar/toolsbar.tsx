@@ -26,14 +26,16 @@ export default function Toolsbar({
   canZoomOut: boolean;
 }) {
   const { undo, redo, canUndo, canRedo } = useHistory();
-  
+
   return (
     <div className="fixed bottom-4 left-1/2 z-10 flex -translate-x-1/2 items-center justify-center rounded-lg bg-white p-1 shadow">
       <div className="flex justify-center items-center gap-2">
         <SelectionButton
           isActive={
-            canvasState.mode === CanvasMode.None ||
-            canvasState.mode === CanvasMode.Dragging
+            !(
+              canvasState.mode === CanvasMode.Inserting ||
+              canvasState.mode === CanvasMode.Pencil
+            )
           }
           canvasMode={canvasState.mode}
           onClick={(canvasMode) =>
