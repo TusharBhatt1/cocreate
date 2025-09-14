@@ -7,6 +7,7 @@ import Toolsbar from "./toolsbar/toolsbar";
 import Path from "./layers/path";
 import SelectionBox from "./selection-box";
 import useCanvas from "./hooks/useCanvas";
+import { CanvasMode } from "~/types";
 
 export default function Canvas() {
   const roomColor = useStorage((root) => root.roomColor);
@@ -58,6 +59,20 @@ export default function Canvas() {
               <SelectionBox
                 onResizeHandlePointerDown={onResizeHandlePointerDown}
               />
+              {canvasState.mode === CanvasMode.SelectionNet &&
+                canvasState.current != null && (
+                  <rect
+                    className="fill-blue-600/5 stroke-blue-600 stroke-[0.5]"
+                    x={Math.min(canvasState.origin.x, canvasState.current.x)}
+                    y={Math.min(canvasState.origin.y, canvasState.current.y)}
+                    width={Math.abs(
+                      canvasState.origin.x - canvasState.current.x
+                    )}
+                    height={Math.abs(
+                      canvasState.origin.y - canvasState.current.y
+                    )}
+                  />
+                )}
               {pencilDraft !== null && pencilDraft.length > 0 && (
                 <Path
                   x={0}
