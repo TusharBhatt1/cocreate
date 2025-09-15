@@ -106,6 +106,7 @@ export default function useCanvas() {
         liveLayers.set(layerId, layer);
 
         setMyPresence({ selection: [layerId] }, { addToHistory: true });
+        setCanvasState({ mode: CanvasMode.None });
       }
     },
     []
@@ -376,7 +377,7 @@ export default function useCanvas() {
         setCanvasState({ mode: CanvasMode.Translating, current: point });
       }
     },
-    [canvasState.mode, camera, canvasState.mode, history]
+    [canvasState.mode, camera, history]
   );
 
   const selectAllLayers = useMutation(
