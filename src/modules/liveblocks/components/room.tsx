@@ -1,10 +1,12 @@
-"use client"
+"use client";
 import { LiveList, LiveMap, LiveObject } from "@liveblocks/client";
 import {
   ClientSideSuspense,
   LiveblocksProvider,
   RoomProvider,
 } from "@liveblocks/react";
+import { SidebarTrigger } from "~/components/ui/sidebar";
+import LeftSidebar from "~/modules/shared/left-sidebar";
 import type { Layer } from "~/types";
 
 export default function Room({
@@ -14,7 +16,7 @@ export default function Room({
   children: React.ReactNode;
   roomId: string;
 }) {
-  console.log(roomId)
+  console.log(roomId);
   return (
     <LiveblocksProvider authEndpoint={"/api/liveblocks-auth"}>
       <RoomProvider
@@ -32,6 +34,9 @@ export default function Room({
         }}
       >
         <ClientSideSuspense fallback={<div>Loading…</div>}>
+          <LeftSidebar />
+          <SidebarTrigger className="z-1000 bg-muted-foreground" />
+
           {children}
         </ClientSideSuspense>
       </RoomProvider>

@@ -1,6 +1,6 @@
 import { useState, useRef, useEffect } from "react";
 
-import { CanvasMode, CanvasState, LayerType } from "~/types";
+import { CanvasMode, type CanvasState, LayerType } from "~/types";
 import IconButton from "./icon-button";
 import { IoEllipseOutline, IoSquareOutline } from "react-icons/io5";
 
@@ -62,7 +62,12 @@ export default function ShapesSelectionButton({
       {isOpen && (
         <div className="absolute -top-20 mt-1 min-w-[150px] rounded-xl bg-[#1e1e1e] p-2 shadow-lg">
           <button
-            className={`flex w-full items-center rounded-md p-1 text-white hover:bg-blue-500 ${canvasState.mode === CanvasMode.Inserting && canvasState.layerType === LayerType.Rectangle ? "bg-blue-500" : ""}`}
+            className={`flex w-full items-center rounded-md p-1 text-white hover:bg-blue-500 ${
+              canvasState.mode === CanvasMode.Inserting &&
+              canvasState.layerType === LayerType.Rectangle
+                ? "bg-blue-500"
+                : ""
+            }`}
             onClick={() => handleClick(LayerType.Rectangle)}
           >
             <span className="w-5 text-xs">
@@ -74,7 +79,12 @@ export default function ShapesSelectionButton({
             <span className="text-xs">Rectangle</span>
           </button>
           <button
-            className={`flex w-full items-center rounded-md p-1 text-white hover:bg-blue-500 ${canvasState.mode === CanvasMode.Inserting && canvasState.layerType === LayerType.Ellipse ? "bg-blue-500" : ""}`}
+            className={`flex w-full items-center rounded-md p-1 text-white hover:bg-blue-500 ${
+              canvasState.mode === CanvasMode.Inserting &&
+              canvasState.layerType === LayerType.Ellipse
+                ? "bg-blue-500"
+                : ""
+            }`}
             onClick={() => handleClick(LayerType.Ellipse)}
           >
             <span className="w-5 text-xs">

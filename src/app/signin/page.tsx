@@ -12,7 +12,7 @@ export default function Page() {
     undefined
   );
   return (
-    <div className="flex min-h-screen items-center justify-center px-12">
+    <div className="flex min-h-screen items-center justify-center px-12 w-full">
       <div className="w-full max-w-sm space-y-6">
         <h1 className="text-center md:text-2xl text-xl font-semibold">
           Sign In

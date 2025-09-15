@@ -140,3 +140,17 @@ export type XYWH = {
   width: number;
   height: number;
 };
+
+export type Updates = {
+  x?: number;
+  y?: number;
+  height?: number;
+  width?: number;
+  fill?: string;
+  stroke?: string;
+  opacity?: number;
+  text?: string;
+  fontSize?: number;
+  fontWeight?: number;
+  fontFamily?: string;
+};
