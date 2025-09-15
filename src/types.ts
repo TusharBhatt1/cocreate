@@ -110,6 +110,9 @@ export type CanvasState =
   | {
       mode: CanvasMode.Pressing;
       origin: Point;
+    }
+  | {
+      mode: CanvasMode.RightClick;
     };
 
 export enum CanvasMode {
@@ -121,6 +124,7 @@ export enum CanvasMode {
   Translating, //select layers, move them around,resize,
   SelectionNet,
   Pressing,
+  RightClick,
 }
 
 export enum Side {

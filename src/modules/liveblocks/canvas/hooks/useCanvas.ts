@@ -261,6 +261,8 @@ export default function useCanvas() {
 
   const onPointerUp = useMutation(
     ({}, e: React.PointerEvent) => {
+      if (canvasState.mode === CanvasMode.RightClick) return;
+
       const point = pointerEventToCanvasPointer(e, camera);
 
       if (
@@ -367,9 +369,12 @@ export default function useCanvas() {
           { addToHistory: true }
         );
       }
-
-      const point = pointerEventToCanvasPointer(e, camera);
-      setCanvasState({ mode: CanvasMode.Translating, current: point });
+      if (e.nativeEvent.button === 2) {
+        setCanvasState({ mode: CanvasMode.RightClick });
+      } else {
+        const point = pointerEventToCanvasPointer(e, camera);
+        setCanvasState({ mode: CanvasMode.Translating, current: point });
+      }
     },
     [canvasState.mode, camera, canvasState.mode, history]
   );
@@ -394,6 +399,6 @@ export default function useCanvas() {
     onPointerMove,
     onPointerUp,
     onResizeHandlePointerDown,
-    selectAllLayers
+    selectAllLayers,
   };
 }

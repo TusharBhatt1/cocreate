@@ -9,6 +9,7 @@ import SelectionBox from "./selection-box";
 import useCanvas from "./hooks/useCanvas";
 import { CanvasMode } from "~/types";
 import useDeleteLayers from "./hooks/useDeleteLayers";
+import SelectionTools from "./selection-tools";
 
 export default function Canvas() {
   const roomColor = useStorage((root) => root.roomColor);
@@ -74,6 +75,7 @@ export default function Canvas() {
           style={{ background: roomColor ? colorToCss(roomColor) : "black" }}
           className="size-full touch-none"
         >
+          <SelectionTools camera={camera} canvasMode={canvasState.mode} />
           <svg
             onWheel={onWheel}
             className="size-full"
