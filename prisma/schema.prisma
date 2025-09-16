@@ -55,15 +55,17 @@ model Session {
 }
 
 model User {
-    id            String    @id @default(cuid())
+    id            String       @id @default(cuid())
     name          String?
-    email         String?   @unique
+    email         String?      @unique
     password      String
     emailVerified DateTime?
     image         String?
     accounts      Account[]
     sessions      Session[]
     posts         Post[]
+    ownedRooms    Room[]       @relation("RoomOwner")
+    roomInvites   RoomInvite[]
 }
 
 model VerificationToken {
@@ -72,4 +74,23 @@ model VerificationToken {
     expires    DateTime
 
     @@unique([identifier, token])
+}
+
+model Room {
+    id          String       @id @default(cuid())
+    owner       User         @relation("RoomOwner", fields: [ownerId], references: [id])
+    ownerId     String
+    createdAt   DateTime     @default(now())
+    title       String       @default("Untitled")
+    roomInvites RoomInvite[]
+}
+
+model RoomInvite {
+    id      String   @id @default(cuid())
+    room    Room     @relation(fields: [roomId], references: [id])
+    roomId  String
+    email   String
+    expires DateTime
+    user    User     @relation(fields: [userId], references: [id])
+    userId  String
 }
