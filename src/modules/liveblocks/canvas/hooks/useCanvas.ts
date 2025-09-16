@@ -219,6 +219,7 @@ export default function useCanvas() {
         return;
 
       setMyPresence({
+        cursor: point,
         pencilDraft: [...pencilDraft, [point.x, point.y, e.pressure]],
       });
     },

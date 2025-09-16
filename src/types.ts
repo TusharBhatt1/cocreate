@@ -153,4 +153,5 @@ export type Updates = {
   fontSize?: number;
   fontWeight?: number;
   fontFamily?: string;
+  cornerRadius?: number;
 };

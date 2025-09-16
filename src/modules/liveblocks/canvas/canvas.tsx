@@ -10,6 +10,7 @@ import useCanvas from "./hooks/useCanvas";
 import { CanvasMode } from "~/types";
 import useDeleteLayers from "./hooks/useDeleteLayers";
 import SelectionTools from "./selection-tools";
+import MultiplayerGuides from "./multiplayer-guides";
 
 export default function Canvas() {
   const roomColor = useStorage((root) => root.roomColor);
@@ -113,6 +114,7 @@ export default function Canvas() {
                     )}
                   />
                 )}
+              <MultiplayerGuides />
               {pencilDraft !== null && pencilDraft.length > 0 && (
                 <Path
                   x={0}

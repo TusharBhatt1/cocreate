@@ -6,7 +6,7 @@ import {
   RoomProvider,
 } from "@liveblocks/react";
 import { SidebarTrigger } from "~/components/ui/sidebar";
-import LeftSidebar from "~/modules/shared/left-sidebar";
+import LeftSidebar from "~/modules/shared/sidebar/sidebars";
 import type { Layer } from "~/types";
 
 export default function Room({

@@ -1,3 +1,4 @@
+import { COLORS } from "./constants";
 import {
   LayerType,
   type Camera,
@@ -9,7 +10,8 @@ import {
   type Layer,
 } from "./types";
 
-export function colorToCss(color: Color): string {
+export function colorToCss(color: Color | null): string {
+  if (!color) return "";
   const toHex = (value: number) => {
     const hex = value.toString(16);
     return hex.length === 1 ? "0" + hex : hex;
@@ -166,3 +168,7 @@ export const hexToRGB = (hex: string): Color => {
 
   return { r, g, b };
 };
+
+export function connectionIdToColor(connectionId: number): string {
+  return COLORS[connectionId % COLORS.length]!;
+}
