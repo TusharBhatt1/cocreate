@@ -40,6 +40,7 @@ export const register = async (
   }
   redirect("/signin");
 };
+
 export const authenticate = async (
   prevState: string | undefined,
   formData: FormData

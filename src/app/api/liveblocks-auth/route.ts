@@ -10,10 +10,17 @@ export async function POST(req: Request) {
 
   if (!userSession) throw Error("User not logged in");
 
-  //Get users room and invitations to rooms
   const user = await db.user.findUniqueOrThrow({
     where: {
       id: userSession.user.id,
+    },
+    include: {
+      ownedRooms: true,
+      roomInvites: {
+        include: {
+          room: true,
+        },
+      },
     },
   });
 
@@ -25,7 +32,13 @@ export async function POST(req: Request) {
     },
   });
 
-  session.allow(`roomId:${"test"}`, session.FULL_ACCESS);
+  user.ownedRooms.forEach((room) =>
+    session.allow(`roomId:${room.id}`, session.FULL_ACCESS)
+  );
+
+  user.roomInvites.forEach((invite) =>
+    session.allow(`roomId:${invite.room.id}`, session.FULL_ACCESS)
+  );
 
   const { status, body } = await session.authorize();
 
