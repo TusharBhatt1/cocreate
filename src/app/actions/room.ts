@@ -76,7 +76,7 @@ export async function deleteRoom(roomId: string) {
   revalidatePath("dashboard");
 }
 
-export async function sharedRoom({
+export async function shareRoom({
   roomId,
   inviteEmail,
 }: {
@@ -134,5 +134,5 @@ export async function deleteInvite(roomId: string, inviteEmail: string) {
     },
   });
 
-  revalidatePath("dashboard")
+  revalidatePath("dashboard");
 }

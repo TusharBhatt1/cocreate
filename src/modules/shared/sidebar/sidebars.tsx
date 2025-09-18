@@ -34,6 +34,8 @@ import { FONTS, FONT_WEIGHTS } from "~/constants";
 import { Avatar, AvatarImage } from "~/components/ui/avatar";
 import { AvatarFallback } from "@radix-ui/react-avatar";
 import { cn } from "~/lib/utils";
+import type { User } from "@prisma/client";
+import ShareRoom from "./share-room";
 
 const LAYER_CONFIG: Record<LayerType, { icon: JSX.Element; label: string }> = {
   [LayerType.Rectangle]: { icon: <IoSquareOutline />, label: "Rectangle" },
@@ -42,7 +44,15 @@ const LAYER_CONFIG: Record<LayerType, { icon: JSX.Element; label: string }> = {
   [LayerType.Text]: { icon: <AiOutlineFontSize />, label: "Text" },
 };
 
-export default function Sidebars() {
+export default function Sidebars({
+  roomId,
+  roomName,
+  otherWithAccessToRoom,
+}: {
+  roomId:string;
+  roomName: string;
+  otherWithAccessToRoom: User[];
+}) {
   const me = useSelf();
   const others = useOthers();
 
@@ -111,7 +121,7 @@ export default function Sidebars() {
   return (
     <>
       <Sidebar>
-        <SidebarHeader>Room</SidebarHeader>
+        <SidebarHeader>{roomName}</SidebarHeader>
         <SidebarContent>
           <SidebarGroup>
             <SidebarGroupLabel>Layers</SidebarGroupLabel>
@@ -147,50 +157,54 @@ export default function Sidebars() {
 
       {/* Right */}
       <Sidebar side="right">
-        <SidebarHeader>Users and share here</SidebarHeader>
-        <SidebarContent>
-          <SidebarGroup>
-            <SidebarGroupContent>
-              <SidebarMenuItem className="flex gap-2 flex-wrap">
-                {me && (
-                  <Avatar>
-                    <AvatarImage alt={me.info?.name || "User avatar"} />
-                    <AvatarFallback
-                      className="size-8 text-neutral-100 flex items-center justify-center"
-                      style={{ backgroundColor: connectionIdToColor(me.connectionId) }}
-                    >
-                      {" "}
-                      {me.info?.name
-                        ? me.info.name
-                            .split(" ")
-                            .map((n) => n[0])
-                            .join("")
-                            .toUpperCase()
-                        : "U"}
-                    </AvatarFallback>
-                  </Avatar>
-                )}
+        <SidebarHeader className="flex flex-row gap-2 flex-wrap justify-between">
+          <div className="flex flex-row gap-2">
+          {me && (
+            <Avatar>
+              <AvatarImage alt={me.info?.name || "User avatar"} />
+              <AvatarFallback
+                className="size-8 text-neutral-100 flex items-center justify-center"
+                style={{
+                  backgroundColor: connectionIdToColor(me.connectionId),
+                }}
+              >
+                {" "}
+                {me.info?.name
+                  ? me.info.name
+                      .split(" ")
+                      .map((n) => n[0])
+                      .join("")
+                      .toUpperCase()
+                  : "U"}
+              </AvatarFallback>
+            </Avatar>
+          )}
 
-                {others?.map((user) => (
-                  <Avatar key={user.id}>
-                    <AvatarImage alt={user.info?.name || "User avatar"} />
-                    <AvatarFallback
-                      className="size-8 text-neutral-100 flex items-center justify-center"
-                      style={{ backgroundColor: connectionIdToColor(user.connectionId) }}
-                    >
-                      {user.info?.name
-                        ? user.info.name
-                            .split(" ")
-                            .map((n) => n[0])
-                            .join("")
-                            .toUpperCase()
-                        : "U"}
-                    </AvatarFallback>
-                  </Avatar>
-                ))}
-              </SidebarMenuItem>
-            </SidebarGroupContent>
-          </SidebarGroup>
+          {others?.map((user) => (
+            <Avatar key={user.id}>
+              <AvatarImage alt={user.info?.name || "User avatar"} />
+              <AvatarFallback
+                className="size-8 text-neutral-100 flex items-center justify-center"
+                style={{
+                  backgroundColor: connectionIdToColor(user.connectionId),
+                }}
+              >
+                {user.info?.name
+                  ? user.info.name
+                      .split(" ")
+                      .map((n) => n[0])
+                      .join("")
+                      .toUpperCase()
+                  : "U"}
+              </AvatarFallback>
+            </Avatar>
+          ))}
+          </div>
+          <div>
+            <ShareRoom roomId={roomId} otherWithAccessToRoom={otherWithAccessToRoom}/>
+          </div>
+        </SidebarHeader>
+        <SidebarContent>
           {layer ? (
             <SidebarGroup>
               <SidebarGroupContent>

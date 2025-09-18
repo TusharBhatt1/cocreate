@@ -5,18 +5,22 @@ import {
   LiveblocksProvider,
   RoomProvider,
 } from "@liveblocks/react";
+import type { User } from "@prisma/client";
 import { SidebarTrigger } from "~/components/ui/sidebar";
-import LeftSidebar from "~/modules/shared/sidebar/sidebars";
+import Sidebars from "~/modules/shared/sidebar/sidebars";
 import type { Layer } from "~/types";
 
 export default function Room({
   children,
   roomId,
+  roomName,
+  otherWithAccessToRoom,
 }: {
+  roomName: string;
   children: React.ReactNode;
   roomId: string;
+  otherWithAccessToRoom: User[];
 }) {
-  console.log(roomId);
   return (
     <LiveblocksProvider authEndpoint={"/api/liveblocks-auth"}>
       <RoomProvider
@@ -34,7 +38,11 @@ export default function Room({
         }}
       >
         <ClientSideSuspense fallback={<div>Loading…</div>}>
-          <LeftSidebar />
+          <Sidebars
+            roomId={roomId}
+            roomName={roomName}
+            otherWithAccessToRoom={otherWithAccessToRoom}
+          />
           <SidebarTrigger className="z-1000 bg-muted-foreground" />
 
           {children}
