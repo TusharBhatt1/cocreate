@@ -4,7 +4,8 @@ import React, { useActionState } from "react";
 import { Button } from "~/components/ui/button";
 import { Input } from "~/components/ui/input";
 import { authenticate, register } from "../actions/auth";
-import {Loader2Icon} from "lucide-react"
+import { Loader2Icon } from "lucide-react";
+import Image from "next/image";
 
 export default function Page() {
   const [errorMessage, formAction, isPending] = useActionState(
@@ -13,13 +14,25 @@ export default function Page() {
   );
   return (
     <div className="flex min-h-screen items-center justify-center px-12 w-full">
-      <div className="w-full max-w-sm space-y-6">
-        <h1 className="text-center md:text-2xl text-xl font-semibold">
-          Sign In
-        </h1>
+      <div className="w-full max-w-sm space-y-12">
+        <div className="space-y-3 text-center">
+          <Image
+            alt="Co Cocreate"
+            src={"/logo.png"}
+            height={40}
+            width={40}
+            className="m-auto mb-4"
+          />
+          <p className="text-xl">
+            Presenting Cocreate by{" "}
+            <span className="font-bold">Tushar Bhatt</span>
+          </p>
+          <p className="italic">Design Together, in Real-Time.</p>
+        </div>
         <form action={formAction} className="space-y-4">
+          <h1 className="text-center text-xl font-semibold">Welcome back, Sign In</h1>
           <div className="relative h-fit">
-            <Input type="email" name="email" required className="pt-7 h-12" />
+            <Input type="email" name="email" required className="pt-4 h-12" />
             <span className="absolute top-1 left-2 text-xs text-muted-foreground">
               EMAIL
             </span>
@@ -36,8 +49,8 @@ export default function Page() {
               PASSWORD
             </span>
           </div>
-          <Button className="w-full" disabled={isPending} >
-            Login {isPending && <Loader2Icon className="animate-spin"/>}
+          <Button className="w-full" disabled={isPending}>
+            SignIn {isPending && <Loader2Icon className="animate-spin" />}
           </Button>
           <p className="text-center">
             No account ?{" "}

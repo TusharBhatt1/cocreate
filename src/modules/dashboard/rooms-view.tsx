@@ -6,6 +6,10 @@ import { useEffect, useMemo, useState } from "react";
 import ConfirmationModal from "./confirmation-modal";
 import type { Room } from "@prisma/client";
 import { deleteRoom, updateRoomTitle } from "~/app/actions/room";
+import { Input } from "~/components/ui/input";
+import Link from "next/link";
+import { Button } from "~/components/ui/button";
+import { Pencil, Trash2 } from "lucide-react";
 
 const PASTEL_COLORS = [
   "rgb(255, 182, 193)", // pink
@@ -26,9 +30,6 @@ export default function RoomsView({
   roomInvites: Room[];
 }) {
   const [viewMode, setViewMode] = useState("owns");
-  const [selected, setSelected] = useState<string | null>(null);
-  const router = useRouter();
-  const outerDivRef = useRef<HTMLDivElement>(null);
 
   const filteredRooms = useMemo(() => {
     if (viewMode === "owns") {
@@ -46,22 +47,8 @@ export default function RoomsView({
     }));
   }, [filteredRooms]);
 
-  useEffect(() => {
-    const handleClickOutside = (e: MouseEvent) => {
-      if (
-        outerDivRef.current &&
-        !outerDivRef.current.contains(e.target as Node)
-      ) {
-        setSelected(null);
-      }
-    };
-
-    document.addEventListener("mousedown", handleClickOutside);
-    return () => document.removeEventListener("mousedown", handleClickOutside);
-  }, []);
-
   return (
-    <div ref={outerDivRef} className="flex flex-col gap-5">
+    <div className="flex flex-col gap-5 mt-7">
       <div className="flex gap-1">
         <ViewModeButton
           onSelect={() => setViewMode("owns")}
@@ -87,9 +74,7 @@ export default function RoomsView({
                 title={room.title}
                 description={`Created ${room.createdAt.toDateString()}`}
                 color={roomColor}
-                selected={selected === room.id}
-                select={() => setSelected(room.id)}
-                navigateTo={() => router.push("/dashboard/" + room.id)}
+                href={`/dashboard/${room.id}`}
                 canEdit={viewMode === "owns"}
               />
             </React.Fragment>
@@ -105,18 +90,14 @@ function SingleRoom({
   title,
   description,
   color,
-  selected,
-  select,
-  navigateTo,
+  href,
   canEdit,
 }: {
   id: string;
   title: string;
   description: string;
   color: string;
-  selected: boolean;
-  select: () => void;
-  navigateTo: () => void;
+  href: string;
   canEdit: boolean;
 }) {
   const [isEditing, setIsEditing] = useState(false);
@@ -129,66 +110,67 @@ function SingleRoom({
     if (event.key === "Enter") {
       event.preventDefault();
       setIsEditing(false);
-      await updateRoomTitle({ title: editedTitle, roomId:id });
+      await updateRoomTitle({ title: editedTitle, roomId: id });
     }
   };
 
   const handleBlur = async () => {
     setIsEditing(false);
-    await updateRoomTitle({ title: editedTitle, roomId:id });
-};
+    await updateRoomTitle({ title: editedTitle, roomId: id });
+  };
 
   const confirmDelete = async () => {
     await deleteRoom(id);
     setShowConfirmationModal(false);
   };
 
-  useEffect(() => {
-    const handleKeyDown = (e: KeyboardEvent) => {
-      if (e.key === "Backspace" && selected && !isEditing) {
-        e.preventDefault();
-        setShowConfirmationModal(true);
-      }
-    };
-
-    document.addEventListener("keydown", handleKeyDown);
-
-    return () => {
-      document.removeEventListener("keydown", handleKeyDown);
-    };
-  }, [selected, id, isEditing]);
-
   return (
-    <div className="flex flex-col gap-0.5">
-      <div
-        onDoubleClick={navigateTo}
-        onClick={select}
+    <div className="flex flex-col gap-3">
+      <Link
+        href={href}
         style={{ backgroundColor: color }}
-        className={`flex h-56 w-96 cursor-pointer items-center justify-center rounded-md ${
-          selected ? "border-2 border-blue-500" : "border border-[#e8e8e8]"
-        }`}
+        className="size-40 m-auto rounded-xl flex justify-center items-center hover:border-2"
       >
         <p className="text-md select-none font-medium">{title}</p>
-      </div>
+      </Link>
       {isEditing && canEdit ? (
-        <input
+        <Input
           type="text"
           value={editedTitle}
           onChange={(e) => setEditedTitle(e.target.value)}
           onBlur={handleBlur}
           onKeyPress={handleKeyPress}
           autoFocus
-          className="w-full"
+          className="w-full border hover:border-red-100"
         />
       ) : (
         <p
           onClick={() => setIsEditing(true)}
-          className="mt-2 select-none text-[13px] font-medium"
+          className="mt-2 select-none text-3 font-medium cursor-pointer"
         >
           {title}
         </p>
       )}
-      <p className="select-none text-[10px] text-gray-400">{description}</p>
+      <p className="select-none text-gray-400">{description}</p>
+
+      <div className="flex flex-wrap gap-2 mt-2">
+        <Button
+          variant="outline"
+          size="sm"
+          onClick={() => setIsEditing(true)}
+          className="flex items-center gap-1 w-full"
+        >
+          <Pencil size={10} />
+        </Button>
+        <Button
+          variant="destructive"
+          size="sm"
+          onClick={() => setShowConfirmationModal(true)}
+          className="flex items-center gap-1 w-full"
+        >
+          <Trash2 size={10} />
+        </Button>
+      </div>
       <ConfirmationModal
         isOpen={showConfirmationModal}
         onClose={() => setShowConfirmationModal(false)}

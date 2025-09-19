@@ -6,7 +6,6 @@ import {
   RoomProvider,
 } from "@liveblocks/react";
 import type { User } from "@prisma/client";
-import { SidebarTrigger } from "~/components/ui/sidebar";
 import Sidebars from "~/modules/shared/sidebar/sidebars";
 import type { Layer } from "~/types";
 
@@ -43,7 +42,6 @@ export default function Room({
             roomName={roomName}
             otherWithAccessToRoom={otherWithAccessToRoom}
           />
-          <SidebarTrigger className="z-1000 bg-muted-foreground" />
 
           {children}
         </ClientSideSuspense>

@@ -1,7 +1,7 @@
 "use client";
-import React, { useEffect, type JSX } from "react";
+import React, { type JSX, useState } from "react";
 import { useMutation, useOthers, useSelf, useStorage } from "@liveblocks/react";
-import { Calendar, Home, Inbox, Pencil, Search, Settings } from "lucide-react";
+import { Pencil } from "lucide-react";
 
 import {
   Sidebar,
@@ -13,6 +13,7 @@ import {
   SidebarMenu,
   SidebarMenuButton,
   SidebarMenuItem,
+  SidebarProvider,
 } from "~/components/ui/sidebar";
 import { LayerType, type Color, type Updates } from "~/types";
 import { colorToCss, connectionIdToColor, hexToRGB } from "~/utils";
@@ -36,6 +37,7 @@ import { AvatarFallback } from "@radix-ui/react-avatar";
 import { cn } from "~/lib/utils";
 import type { User } from "@prisma/client";
 import ShareRoom from "./share-room";
+import ActiveUsers from "./active-users";
 
 const LAYER_CONFIG: Record<LayerType, { icon: JSX.Element; label: string }> = {
   [LayerType.Rectangle]: { icon: <IoSquareOutline />, label: "Rectangle" },
@@ -49,12 +51,10 @@ export default function Sidebars({
   roomName,
   otherWithAccessToRoom,
 }: {
-  roomId:string;
+  roomId: string;
   roomName: string;
   otherWithAccessToRoom: User[];
 }) {
-  const me = useSelf();
-  const others = useOthers();
 
   const selectedLayer = useSelf((me) => {
     const selections = me.presence.selection;
@@ -74,8 +74,6 @@ export default function Sidebars({
   const layerIds = useStorage((root) => root.layerIds);
 
   const reverseLayerIds = [...(layerIds ?? [])].reverse();
-
-  const selection = useSelf((me) => me.presence.selection);
 
   const updateLayer = useMutation(
     ({ storage }, updates: Updates) => {
@@ -154,54 +152,15 @@ export default function Sidebars({
           </SidebarGroup>
         </SidebarContent>
       </Sidebar>
-
       {/* Right */}
       <Sidebar side="right">
         <SidebarHeader className="flex flex-row gap-2 flex-wrap justify-between">
-          <div className="flex flex-row gap-2">
-          {me && (
-            <Avatar>
-              <AvatarImage alt={me.info?.name || "User avatar"} />
-              <AvatarFallback
-                className="size-8 text-neutral-100 flex items-center justify-center"
-                style={{
-                  backgroundColor: connectionIdToColor(me.connectionId),
-                }}
-              >
-                {" "}
-                {me.info?.name
-                  ? me.info.name
-                      .split(" ")
-                      .map((n) => n[0])
-                      .join("")
-                      .toUpperCase()
-                  : "U"}
-              </AvatarFallback>
-            </Avatar>
-          )}
-
-          {others?.map((user) => (
-            <Avatar key={user.id}>
-              <AvatarImage alt={user.info?.name || "User avatar"} />
-              <AvatarFallback
-                className="size-8 text-neutral-100 flex items-center justify-center"
-                style={{
-                  backgroundColor: connectionIdToColor(user.connectionId),
-                }}
-              >
-                {user.info?.name
-                  ? user.info.name
-                      .split(" ")
-                      .map((n) => n[0])
-                      .join("")
-                      .toUpperCase()
-                  : "U"}
-              </AvatarFallback>
-            </Avatar>
-          ))}
-          </div>
+          <ActiveUsers/>
           <div>
-            <ShareRoom roomId={roomId} otherWithAccessToRoom={otherWithAccessToRoom}/>
+            <ShareRoom
+              roomId={roomId}
+              otherWithAccessToRoom={otherWithAccessToRoom}
+            />
           </div>
         </SidebarHeader>
         <SidebarContent>

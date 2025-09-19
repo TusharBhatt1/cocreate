@@ -1,19 +1,18 @@
 import "~/styles/globals.css";
 
 import type { Metadata } from "next";
-import { Inter } from "next/font/google";
+import { Poppins } from "next/font/google";
 import Providers from "~/modules/shared/providers";
 import { auth } from "~/server/auth";
 
 export const metadata: Metadata = {
   title: "Cocreate",
   description: "Figma clone",
-  icons: [{ rel: "icon", url: "/favicon.ico" }],
+  icons: [{ rel: "icon", url: "/logo.png" }],
 };
 
-const inter = Inter({
-  subsets: ["latin"],
-  display: "swap",
+const inter = Poppins({
+  weight: ["100", "200", "400", "500", "800"],
 });
 
 export default async function RootLayout({
@@ -23,7 +22,9 @@ export default async function RootLayout({
   return (
     <html lang="en" className={`${inter.className}`}>
       <body className="overflow-hidden overscroll-none">
-        <Providers session={session}>{children}</Providers>
+        <Providers session={session}>
+          {children} 
+        </Providers>
       </body>
     </html>
   );

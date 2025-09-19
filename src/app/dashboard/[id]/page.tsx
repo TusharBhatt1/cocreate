@@ -30,8 +30,6 @@ export default async function Page({
   });
 
   if (!session?.user.id || !room) {
-    console.log("here1");
-
     redirect("/dashboard");
   }
 

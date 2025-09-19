@@ -71,7 +71,7 @@ export default function Canvas() {
 
   return (
     <div className="h-screen w-full">
-      <main className="fixed left-0 right-0 h-screen overflow-hidden">
+      <main className="fixed left-0 right-0  h-screen overflow-hidden">
         <div
           style={{ background: roomColor ? colorToCss(roomColor) : "black" }}
           className="size-full touch-none"
