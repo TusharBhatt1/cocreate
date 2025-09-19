@@ -1,17 +1,36 @@
-"use client"
+"use client";
 import { Card, CardContent } from "~/components/ui/card";
-import { Pencil } from "lucide-react";
+import { Loader2, Pencil } from "lucide-react";
 import { createRoom } from "~/app/actions/room";
+import { useState } from "react";
 
 export function CreateNewDesign() {
+  const [loading, setLoading] = useState(false);
+
+  const handleCreateRoom = async () => {
+    if (loading) return;
+    try {
+      setLoading(true);
+      await createRoom();
+    } finally {
+      setLoading(false);
+    }
+  };
+
   return (
     <Card
-      onClick={() => createRoom()}
-      className="w-64 rounded-xl cursor-pointer hover:bg-neutral-50"
+      onClick={handleCreateRoom}
+      className={`w-64 rounded-xl cursor-pointer hover:bg-neutral-50 ${
+        loading ? "opacity-70 cursor-not-allowed" : ""
+      }`}
     >
       <CardContent className="flex items-center gap-3 p-4">
         <div className="flex size-10 items-center justify-center rounded-full bg-blue-600">
-          <Pencil className="size-5 text-white" />
+          {loading ? (
+            <Loader2 className="size-5 text-white animate-spin" />
+          ) : (
+            <Pencil className="size-5 text-white" />
+          )}
         </div>
 
         <div className="flex flex-col">

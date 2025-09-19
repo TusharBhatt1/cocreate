@@ -40,6 +40,7 @@
 		"nanoid": "^5.1.5",
 		"next": "^15.2.3",
 		"next-auth": "5.0.0-beta.25",
+		"nextjs-toploader": "^3.9.17",
 		"perfect-freehand": "^1.2.2",
 		"react": "^19.0.0",
 		"react-colorful": "^5.6.1",

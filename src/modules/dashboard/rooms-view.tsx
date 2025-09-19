@@ -1,8 +1,7 @@
 "use client";
 
-import { useRouter } from "next/navigation";
-import React, { useRef } from "react";
-import { useEffect, useMemo, useState } from "react";
+import React from "react";
+import { useMemo, useState } from "react";
 import ConfirmationModal from "./confirmation-modal";
 import type { Room } from "@prisma/client";
 import { deleteRoom, updateRoomTitle } from "~/app/actions/room";
@@ -10,6 +9,7 @@ import { Input } from "~/components/ui/input";
 import Link from "next/link";
 import { Button } from "~/components/ui/button";
 import { Pencil, Trash2 } from "lucide-react";
+import { useRouter } from "nextjs-toploader/app";
 
 const PASTEL_COLORS = [
   "rgb(255, 182, 193)", // pink
@@ -54,14 +54,16 @@ export default function RoomsView({
           onSelect={() => setViewMode("owns")}
           active={viewMode === "owns"}
           text="My project"
+          count={ownedRooms.length}
         />
         <ViewModeButton
           onSelect={() => setViewMode("shared")}
           active={viewMode === "shared"}
           text="Shared files"
+          count={roomInvites.length}
         />
       </div>
-      <div className="flex flex-wrap gap-4">
+      <div className="flex flex-wrap gap-4 max-h-[450px] overflow-scroll p-2">
         {filteredRooms.map((room) => {
           const roomColor =
             roomColors.find((rc) => rc.id === room.id)?.color ??
@@ -123,16 +125,17 @@ function SingleRoom({
     await deleteRoom(id);
     setShowConfirmationModal(false);
   };
+  const router = useRouter();
 
   return (
     <div className="flex flex-col gap-3">
-      <Link
-        href={href}
+      <div
+        onClick={() => router.push(href)}
         style={{ backgroundColor: color }}
-        className="size-40 m-auto rounded-xl flex justify-center items-center hover:border-2"
+        className="size-40 m-auto cursor-pointer rounded-xl flex justify-center items-center hover:border-2"
       >
         <p className="text-md select-none font-medium">{title}</p>
-      </Link>
+      </div>
       {isEditing && canEdit ? (
         <Input
           type="text"
@@ -185,19 +188,22 @@ function ViewModeButton({
   onSelect,
   active,
   text,
+  count,
 }: {
   onSelect: () => void;
   active: boolean;
   text: string;
+  count: number;
 }) {
   return (
-    <button
+    <Button
       onClick={onSelect}
+      variant={"outline"}
       className={`select-none rounded-md p-1 px-2 text-[11px] hover:bg-gray-100 ${
         active ? "bg-gray-100" : ""
       }`}
     >
-      {text}
-    </button>
+      {`${text} (${count})`}
+    </Button>
   );
 }
