@@ -6,7 +6,6 @@ import ConfirmationModal from "./confirmation-modal";
 import type { Room } from "@prisma/client";
 import { deleteRoom, updateRoomTitle } from "~/app/actions/room";
 import { Input } from "~/components/ui/input";
-import Link from "next/link";
 import { Button } from "~/components/ui/button";
 import { Pencil, Trash2 } from "lucide-react";
 import { useRouter } from "nextjs-toploader/app";
@@ -49,7 +48,7 @@ export default function RoomsView({
 
   return (
     <div className="flex flex-col gap-5 mt-7">
-      <div className="flex gap-1">
+      <div className="flex gap-1 w-full">
         <ViewModeButton
           onSelect={() => setViewMode("owns")}
           active={viewMode === "owns"}
@@ -63,26 +62,28 @@ export default function RoomsView({
           count={roomInvites.length}
         />
       </div>
-      <div className="flex flex-wrap gap-4 max-h-[450px] overflow-scroll p-2">
-        {filteredRooms.map((room) => {
-          const roomColor =
-            roomColors.find((rc) => rc.id === room.id)?.color ??
-            PASTEL_COLORS[0]!;
+      {filteredRooms.length > 0 && (
+        <div className="flex flex-wrap gap-4 max-h-[450px] overflow-scroll p-2">
+          {filteredRooms.map((room) => {
+            const roomColor =
+              roomColors.find((rc) => rc.id === room.id)?.color ??
+              PASTEL_COLORS[0]!;
 
-          return (
-            <React.Fragment key={room.id}>
-              <SingleRoom
-                id={room.id}
-                title={room.title}
-                description={`Created ${room.createdAt.toDateString()}`}
-                color={roomColor}
-                href={`/dashboard/${room.id}`}
-                canEdit={viewMode === "owns"}
-              />
-            </React.Fragment>
-          );
-        })}
-      </div>
+            return (
+              <React.Fragment key={room.id}>
+                <SingleRoom
+                  id={room.id}
+                  title={room.title}
+                  description={`Created ${room.createdAt.toDateString()}`}
+                  color={roomColor}
+                  href={`/dashboard/${room.id}`}
+                  canEdit={viewMode === "owns"}
+                />
+              </React.Fragment>
+            );
+          })}
+        </div>
+      )}
     </div>
   );
 }
@@ -112,12 +113,14 @@ function SingleRoom({
     if (event.key === "Enter") {
       event.preventDefault();
       setIsEditing(false);
+      if (!editedTitle) return;
       await updateRoomTitle({ title: editedTitle, roomId: id });
     }
   };
 
   const handleBlur = async () => {
     setIsEditing(false);
+    if (!editedTitle) return;
     await updateRoomTitle({ title: editedTitle, roomId: id });
   };
 
@@ -128,7 +131,7 @@ function SingleRoom({
   const router = useRouter();
 
   return (
-    <div className="flex flex-col gap-3">
+    <div className="flex flex-col gap-2">
       <div
         onClick={() => router.push(href)}
         style={{ backgroundColor: color }}
@@ -154,14 +157,14 @@ function SingleRoom({
           {title}
         </p>
       )}
-      <p className="select-none text-gray-400">{description}</p>
+      <p className="select-none text-gray-400 text-xs">{description}</p>
 
-      <div className="flex flex-wrap gap-2 mt-2">
+      <div className="flex  gap-2 mt-2">
         <Button
           variant="outline"
           size="sm"
           onClick={() => setIsEditing(true)}
-          className="flex items-center gap-1 w-full"
+          className="flex items-center gap-1"
         >
           <Pencil size={10} />
         </Button>
@@ -169,7 +172,7 @@ function SingleRoom({
           variant="destructive"
           size="sm"
           onClick={() => setShowConfirmationModal(true)}
-          className="flex items-center gap-1 w-full"
+          className="flex items-center gap-1"
         >
           <Trash2 size={10} />
         </Button>

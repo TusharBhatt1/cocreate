@@ -4,7 +4,7 @@ import { redirect } from "next/navigation";
 import { auth } from "~/server/auth";
 import { db } from "~/server/db";
 
-export async function createRoom() {
+export async function createRoom(title: string) {
   const session = await auth();
 
   if (!session?.user.id) throw new Error("User not authenticated");
@@ -16,13 +16,14 @@ export async function createRoom() {
           id: session.user.id,
         },
       },
+      title,
     },
     select: {
       id: true,
     },
   });
 
-  redirect(`/dashboard/${room.id}`);
+  return room.id;
 }
 
 export async function updateRoomTitle({

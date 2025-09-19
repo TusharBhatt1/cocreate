@@ -14,10 +14,17 @@ export default async function page() {
       id: session?.user.id,
     },
     include: {
-      ownedRooms: true,
+      ownedRooms: {
+        orderBy: {
+          createdAt: "desc",
+        },
+      },
       roomInvites: {
         include: {
           room: true,
+        },
+        orderBy: {
+          created: "desc",
         },
       },
     },
