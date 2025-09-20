@@ -13,6 +13,7 @@ export const metadata: Metadata = {
 
 const inter = Poppins({
   weight: ["100", "200", "400", "500", "800"],
+  subsets:["latin"]
 });
 
 export default async function RootLayout({
