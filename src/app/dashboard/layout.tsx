@@ -1,5 +1,6 @@
 import { Globe } from "lucide-react";
 import Image from "next/image";
+import Link from "next/link";
 import React from "react";
 import { Separator } from "~/components/ui/separator";
 import {
@@ -17,14 +18,17 @@ export default function layout({ children }: { children: React.ReactNode }) {
         <Sidebar className="flex h-screen flex-col">
           <SidebarHeader>
             <div className="flex items-center gap-2">
-              <Image
-                alt="Co Cocreate"
-                src={"/logo.png"}
-                height={32}
-                width={32}
-              />
-              <h1>CoCreate</h1>
+              <Link href={"/"}>
+                <Image
+                  alt="Co Cocreate"
+                  src={"/logo.png"}
+                  height={32}
+                  width={32}
+                />
+              </Link>
+              <h1 className="text-xl">CoCreate</h1>
             </div>
+            <Separator/>
             <UserButton />
           </SidebarHeader>
 
@@ -35,7 +39,7 @@ export default function layout({ children }: { children: React.ReactNode }) {
               href="https://tusharbhatt.vercel.app"
               target="_blank"
               rel="noopener noreferrer"
-              className="flex items-center gap-1 hover:text-primary transition-colors"
+              className="flex justify-center items-center gap-1 hover:text-primary transition-colors"
             >
               <Globe size={16} />
               <span>Made by Tushar Bhatt</span>
