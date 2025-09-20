@@ -1,6 +1,6 @@
 "use client";
-import React, { type JSX, useState } from "react";
-import { useMutation, useOthers, useSelf, useStorage } from "@liveblocks/react";
+import React, { type JSX } from "react";
+import { useMutation, useSelf, useStorage } from "@liveblocks/react";
 import { Pencil } from "lucide-react";
 
 import {
@@ -32,12 +32,12 @@ import {
   SelectValue,
 } from "~/components/ui/select";
 import { FONTS, FONT_WEIGHTS } from "~/constants";
-import { Avatar, AvatarImage } from "~/components/ui/avatar";
-import { AvatarFallback } from "@radix-ui/react-avatar";
-import { cn } from "~/lib/utils";
 import type { User } from "@prisma/client";
 import ShareRoom from "./share-room";
 import ActiveUsers from "./active-users";
+import Image from "next/image";
+import { Separator } from "~/components/ui/separator";
+import Link from "next/link";
 
 const LAYER_CONFIG: Record<LayerType, { icon: JSX.Element; label: string }> = {
   [LayerType.Rectangle]: { icon: <IoSquareOutline />, label: "Rectangle" },
@@ -55,7 +55,6 @@ export default function Sidebars({
   roomName: string;
   otherWithAccessToRoom: User[];
 }) {
-
   const selectedLayer = useSelf((me) => {
     const selections = me.presence.selection;
 
@@ -119,7 +118,13 @@ export default function Sidebars({
   return (
     <>
       <Sidebar>
-        <SidebarHeader>{roomName}</SidebarHeader>
+        <SidebarHeader className="flex flex-row gap-4 items-center justify-start">
+          <Link href={"/dashboard"}>
+            <Image alt="Co Cocreate" src={"/logo.png"} height={32} width={32} />
+          </Link>
+          <p>{roomName}</p>
+        </SidebarHeader>
+        <Separator />
         <SidebarContent>
           <SidebarGroup>
             <SidebarGroupLabel>Layers</SidebarGroupLabel>
@@ -155,7 +160,7 @@ export default function Sidebars({
       {/* Right */}
       <Sidebar side="right">
         <SidebarHeader className="flex flex-row gap-2 flex-wrap justify-between">
-          <ActiveUsers/>
+          <ActiveUsers />
           <div>
             <ShareRoom
               roomId={roomId}
@@ -163,6 +168,8 @@ export default function Sidebars({
             />
           </div>
         </SidebarHeader>
+        <Separator />
+
         <SidebarContent>
           {layer ? (
             <SidebarGroup>

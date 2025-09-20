@@ -45,10 +45,10 @@ export default function ActiveUsers() {
         {others?.map((user) => (
           <Tooltip key={user.id}>
             <TooltipTrigger asChild>
-              <Avatar>
+              <Avatar className="cursor-pointer">
                 <AvatarImage alt={user.info?.name || "User avatar"} />
                 <AvatarFallback
-                  className="size-8 text-neutral-100 flex items-center justify-center"
+                  className="size-8 text-neutral-100 rounded-full flex items-center justify-center"
                   style={{
                     backgroundColor: connectionIdToColor(user.connectionId),
                   }}

@@ -31,7 +31,6 @@ export default async function page() {
   });
 
   return (
-    <div>
       <div className="space-y-4 py-2 ml-4">
         <div>
           <p className="text-xl md:text-2xl border-b-muted-foreground">
@@ -45,6 +44,5 @@ export default async function page() {
           roomInvites={user.roomInvites.map((invite) => invite.room)}
         />
       </div>
-    </div>
   );
 }

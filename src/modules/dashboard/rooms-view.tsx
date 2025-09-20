@@ -63,7 +63,7 @@ export default function RoomsView({
         />
       </div>
       {filteredRooms.length > 0 && (
-        <div className="flex flex-wrap gap-4 max-h-[450px] overflow-scroll p-2">
+        <div className="flex flex-wrap gap-4 max-h-[450px] overflow-y-auto p-2">
           {filteredRooms.map((room) => {
             const roomColor =
               roomColors.find((rc) => rc.id === room.id)?.color ??

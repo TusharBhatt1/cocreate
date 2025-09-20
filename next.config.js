@@ -5,10 +5,6 @@
 import "./src/env.js";
 
 /** @type {import("next").NextConfig} */
-const config = {
-    async redirects() {
-        return [{ source: '/', destination: '/dashboard', permanent: false }]
-      },
-};
+const config = {};
 
 export default config;

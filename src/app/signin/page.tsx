@@ -3,7 +3,7 @@ import Link from "next/link";
 import React, { useActionState } from "react";
 import { Button } from "~/components/ui/button";
 import { Input } from "~/components/ui/input";
-import { authenticate, register } from "../actions/auth";
+import { authenticate } from "../actions/auth";
 import { Loader2Icon } from "lucide-react";
 import Image from "next/image";
 
