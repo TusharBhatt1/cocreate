@@ -5,7 +5,8 @@ import { CanvasMode } from "~/types";
 import IconButton from "./icon-button";
 import { BiPointer } from "react-icons/bi";
 import { RiHand } from "react-icons/ri";
-
+import { Button } from "~/components/ui/button";
+import { ChevronUp } from "lucide-react";
 
 export default function SelectionButton({
   isActive,
@@ -36,7 +37,7 @@ export default function SelectionButton({
   };
 
   return (
-    <div className="relative flex" ref={menuRef}>
+    <div className="relative flex items-center" ref={menuRef}>
       <IconButton isActive={isActive} onClick={() => onClick(CanvasMode.None)}>
         {canvasMode !== CanvasMode.None &&
           canvasMode !== CanvasMode.Dragging && (
@@ -45,18 +46,20 @@ export default function SelectionButton({
         {canvasMode === CanvasMode.None && <BiPointer className="h-5 w-5" />}
         {canvasMode === CanvasMode.Dragging && <RiHand className="h-5 w-5" />}
       </IconButton>
-      <button onClick={() => setIsOpen(!isOpen)} className="ml-1 rotate-180">
-        <svg width="8" height="8" viewBox="0 0 8 8" fill="none">
-          <path
-            d="M3.646 6.354l-3-3 .708-.708L4 5.293l2.646-2.647.708.708-3 3L4 6.707l-.354-.353z"
-            fill="currentColor"
-          />
-        </svg>
-      </button>
+      <Button
+        size={"icon"}
+        onClick={() => setIsOpen(!isOpen)}
+        className="ml-1 size-4 rounded-full cursor-pointer"
+      >
+        {" "}
+        <ChevronUp />
+      </Button>
       {isOpen && (
         <div className="absolute -top-20 mt-1 min-w-[150px] rounded-xl bg-[#1e1e1e] p-2 shadow-lg">
           <button
-            className={`flex w-full items-center rounded-md p-1 text-white hover:bg-blue-500 ${canvasMode === CanvasMode.None ? "bg-blue-500" : ""}`}
+            className={`flex w-full items-center rounded-md p-1 text-white hover:bg-blue-500 ${
+              canvasMode === CanvasMode.None ? "bg-blue-500" : ""
+            }`}
             onClick={() => handleClick(CanvasMode.None)}
           >
             <span className="w-5 text-xs">
@@ -66,7 +69,9 @@ export default function SelectionButton({
             <span className="text-xs">Move</span>
           </button>
           <button
-            className={`flex w-full items-center rounded-md p-1 text-white hover:bg-blue-500 ${canvasMode === CanvasMode.Dragging ? "bg-blue-500" : ""}`}
+            className={`flex w-full items-center rounded-md p-1 text-white hover:bg-blue-500 ${
+              canvasMode === CanvasMode.Dragging ? "bg-blue-500" : ""
+            }`}
             onClick={() => handleClick(CanvasMode.Dragging)}
           >
             <span className="w-5 text-xs">

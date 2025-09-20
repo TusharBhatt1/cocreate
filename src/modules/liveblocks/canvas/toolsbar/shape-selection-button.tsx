@@ -3,6 +3,8 @@ import { useState, useRef, useEffect } from "react";
 import { CanvasMode, type CanvasState, LayerType } from "~/types";
 import IconButton from "./icon-button";
 import { IoEllipseOutline, IoSquareOutline } from "react-icons/io5";
+import { Button } from "~/components/ui/button";
+import { ArrowUp, ChevronUp } from "lucide-react";
 
 export default function ShapesSelectionButton({
   isActive,
@@ -33,7 +35,7 @@ export default function ShapesSelectionButton({
   };
 
   return (
-    <div className="relative flex" ref={menuRef}>
+    <div className="relative flex items-center" ref={menuRef}>
       <IconButton
         isActive={isActive}
         onClick={() => onClick(LayerType.Rectangle)}
@@ -51,14 +53,14 @@ export default function ShapesSelectionButton({
             <IoEllipseOutline className="h-5 w-5" />
           )}
       </IconButton>
-      <button onClick={() => setIsOpen(!isOpen)} className="ml-1 rotate-180">
-        <svg width="8" height="8" viewBox="0 0 8 8" fill="none">
-          <path
-            d="M3.646 6.354l-3-3 .708-.708L4 5.293l2.646-2.647.708.708-3 3L4 6.707l-.354-.353z"
-            fill="currentColor"
-          />
-        </svg>
-      </button>
+      <Button
+        size={"icon"}
+        onClick={() => setIsOpen(!isOpen)}
+        className="ml-1 size-4 rounded-full cursor-pointer"
+      >
+        {" "}
+        <ChevronUp />
+      </Button>
       {isOpen && (
         <div className="absolute -top-20 mt-1 min-w-[150px] rounded-xl bg-[#1e1e1e] p-2 shadow-lg">
           <button
