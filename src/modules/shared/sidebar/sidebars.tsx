@@ -59,7 +59,7 @@ export default function Sidebars({
   const selectedLayer = useSelf((me) => {
     const selections = me.presence.selection;
 
-    return selections.length === 1 ? selections[0] : null;
+    return selections?.length === 1 ? selections[0] : null;
   });
 
   const layer = useStorage((root) => {
