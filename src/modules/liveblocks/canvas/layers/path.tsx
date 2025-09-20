@@ -1,6 +1,5 @@
-import type { Color } from "~/types";
 import { getStroke } from "perfect-freehand";
-import { getSvgPathFromStroke, colorToCss } from "~/utils";
+import { getSvgPathFromStroke } from "~/utils";
 export default function Path({
   x,
   y,
