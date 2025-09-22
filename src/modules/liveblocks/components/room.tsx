@@ -20,6 +20,8 @@ export default function Room({
   roomId: string;
   otherWithAccessToRoom: User[];
 }) {
+
+
   return (
     <LiveblocksProvider authEndpoint={"/api/liveblocks-auth"}>
       <RoomProvider

@@ -8,6 +8,7 @@ import {
   SidebarFooter,
   SidebarHeader,
   SidebarProvider,
+  SidebarTrigger,
 } from "~/components/ui/sidebar";
 import UserButton from "~/modules/dashboard/user-button";
 
@@ -15,6 +16,7 @@ export default function layout({ children }: { children: React.ReactNode }) {
   return (
     <div>
       <SidebarProvider>
+        <SidebarTrigger/>
         <Sidebar className="flex h-screen flex-col">
           <SidebarHeader>
             <div className="flex items-center gap-2">
@@ -26,7 +28,7 @@ export default function layout({ children }: { children: React.ReactNode }) {
                   width={32}
                 />
               </Link>
-              <h1 className="text-xl">CoCreate</h1>
+              <h1 className="text-lg">CoCreate</h1>
             </div>
             <Separator/>
             <UserButton />
@@ -34,7 +36,7 @@ export default function layout({ children }: { children: React.ReactNode }) {
 
           <div className="flex-1" />
           <Separator />
-          <SidebarFooter className="mb-1 text-center">
+          <SidebarFooter className="mb-1 text-center text-sm">
             <a
               href="https://tusharbhatt.vercel.app"
               target="_blank"

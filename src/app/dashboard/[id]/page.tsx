@@ -40,6 +40,7 @@ export default async function Page({
   if (!isUserInvited && session.user.id !== room.ownerId) {
     redirect("/dashboard");
   }
+  
 
   return (
     <Room

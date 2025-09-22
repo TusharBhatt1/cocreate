@@ -33,7 +33,7 @@ export default async function page() {
   return (
       <div className="space-y-4 py-2 ml-4">
         <div>
-          <p className="text-lg border-b-muted-foreground">
+          <p className="border-b-muted-foreground">
             Recents
           </p>
           <Separator />

@@ -23,9 +23,6 @@ export default function Page() {
             width={40}
             className="m-auto mb-4"
           />
-          <p className="text-xl">
-            Presenting Cocreate by <span className="font-bold">Tushar Bhatt</span>
-          </p>
           <p className="italic">Design Together, in Real-Time.</p>
         </div>
         <form action={formAction} className="space-y-4">

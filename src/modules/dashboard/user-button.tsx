@@ -27,13 +27,13 @@ export default function UserButton() {
             <Avatar className="h-9 w-9">
               <AvatarImage alt={data?.user.name || "User avatar"} />
               <AvatarFallback className="bg-blue-500 text-white font-medium">
-                {data?.user.name
-                  ? data?.user?.name
+                {data?.user.email
+                  ? data?.user?.email
                       .split(" ")
                       .map((n) => n[0])
                       .join("")
                       .toUpperCase()
-                  : "U"}
+                  :"U"}
               </AvatarFallback>
             </Avatar>
             <div className="flex flex-col leading-tight">

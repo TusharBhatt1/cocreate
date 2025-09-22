@@ -1,5 +1,5 @@
 "use client";
-import { useHistory, useSelf, useStorage } from "@liveblocks/react";
+import { useHistory, useSelf, useStatus, useStorage } from "@liveblocks/react";
 import { colorToCss } from "~/utils";
 import LayerComponent from "./layer-component";
 import React, { useEffect } from "react";
@@ -21,6 +21,7 @@ export default function Canvas() {
   const deleteLayers = useDeleteLayers();
 
   const history = useHistory();
+  const status = useStatus();
 
   const {
     camera,
@@ -68,6 +69,20 @@ export default function Canvas() {
 
     return () => document.removeEventListener("keydown", onKeyDown);
   }, [deleteLayers]);
+
+  if (status === "connecting") {
+    return (
+      <div className="fixed inset-0 flex items-center justify-center bg-white z-50">
+        <div className="flex flex-col items-center gap-3 rounded-2xl z-100 p-6">
+          <div className="size-4 animate-ping rounded-full bg-blue-500" />
+          <div className="font-medium text-gray-700">
+            Just a moment...
+          </div>
+          <span className="md:hidden text-sm">(Works best on bigger devices)</span>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className="h-screen w-full">

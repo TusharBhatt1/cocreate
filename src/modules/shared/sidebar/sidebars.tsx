@@ -38,6 +38,7 @@ import ActiveUsers from "./active-users";
 import Image from "next/image";
 import { Separator } from "~/components/ui/separator";
 import Link from "next/link";
+import { cn } from "~/lib/utils";
 
 const LAYER_CONFIG: Record<LayerType, { icon: JSX.Element; label: string }> = {
   [LayerType.Rectangle]: { icon: <IoSquareOutline />, label: "Rectangle" },
@@ -120,7 +121,7 @@ export default function Sidebars({
       <Sidebar>
         <SidebarHeader className="flex flex-row gap-4 items-center justify-start">
           <Link href={"/dashboard"}>
-            <Image alt="Co Cocreate" src={"/logo.png"} height={32} width={32} />
+            <Image alt="CoCocreate" src={"/logo.png"} height={32} width={32} />
           </Link>
           <p>{roomName}</p>
         </SidebarHeader>
@@ -138,13 +139,19 @@ export default function Sidebars({
                     const config = LAYER_CONFIG[layer.type];
                     if (!config) return null;
 
+                    const isSelected = selectedLayer && selectedLayer === id;
+
                     return (
                       <SidebarMenuItem
                         key={id}
                         onClick={() => updateSelected(id)}
                       >
                         <SidebarMenuButton>
-                          <div className="flex items-center gap-2">
+                          <div
+                            className={cn("flex items-center gap-1 w-full p-1 rounded-md", {
+                              "bg-muted-foreground/20": isSelected,
+                            })}
+                          >
                             {config.icon}
                             <span>{config.label}</span>
                           </div>
