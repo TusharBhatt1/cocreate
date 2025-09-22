@@ -29,16 +29,20 @@ export default async function Page({
     },
   });
 
-  if (!session?.user.id || !room) {
-    redirect("/dashboard");
+  if (!session?.user?.id) {
+    redirect("/dashboard?toast=You are not signed in");
   }
-
+  
+  if (!room) {
+    redirect("/dashboard?toast=Room not found");
+  }
+  
   const isUserInvited = room.roomInvites
     .map((invite) => invite.user.id)
     .includes(session.user.id);
-
+  
   if (!isUserInvited && session.user.id !== room.ownerId) {
-    redirect("/dashboard");
+    redirect("/dashboard?toast=You don't have access to this room");
   }
   
 

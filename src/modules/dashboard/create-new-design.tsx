@@ -1,5 +1,5 @@
 "use client";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Card, CardContent } from "~/components/ui/card";
 import { Loader2, Pencil } from "lucide-react";
 import { Button } from "~/components/ui/button";
@@ -12,6 +12,8 @@ import {
 } from "~/components/ui/dialog";
 import { createRoom } from "~/app/actions/room";
 import { useRouter } from "nextjs-toploader/app";
+import { useSearchParams } from "next/navigation";
+import { toast } from "sonner";
 
 export function CreateNewDesign() {
   const [loading, setLoading] = useState(false);
@@ -33,6 +35,16 @@ export function CreateNewDesign() {
       setLoading(false);
     }
   };
+
+  const searchParams = useSearchParams();
+
+  useEffect(() => {
+    const msg = searchParams.get("toast");
+    if (msg) {
+      toast.info(msg);
+      window.history.replaceState(null, "", window.location.pathname);
+    }
+  }, [searchParams]);
 
   return (
     <>
