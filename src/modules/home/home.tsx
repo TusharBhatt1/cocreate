@@ -47,12 +47,10 @@ export default function LandingPage() {
     <main className="bg-white text-black space-y-12 py-7">
       {/* HERO SECTION */}
       <section className="flex  items-center justify-center px-6">
-      <div className="container mx-auto px-6">
-      {/* Heading */}
-          <h1 className="text-5xl font-extrabold leading-tight md:text-6xl">
-            <span className="bg-gradient-to-r from-black via-gray-700 to-gray-300 bg-clip-text text-transparent">
-              Create
-            </span>
+        <div className="container mx-auto px-6">
+          {/* Heading */}
+          <h1 className="text-3xl font-extrabold leading-tight md:text-5xl">
+            Create
             <br />
             Collaborate
             <br />
@@ -80,9 +78,9 @@ export default function LandingPage() {
               href="https://tusharbhatt.vercel.app"
               target="_blank"
               rel="noopener noreferrer"
-              className="text-gray-500 underline hover:text-gray-700"
+              className="flex items-center gap-2 text-gray-500 underline hover:text-gray-700 transition-colors duration-200"
             >
-              View Tushar Bhatt&apos;s Portfolio
+              Made by Tushar Bhatt
             </a>
           </div>
         </div>
@@ -93,11 +91,8 @@ export default function LandingPage() {
         <div className="container mx-auto px-6">
           {/* Section Heading */}
           <div className="max-w-4xl mx-auto text-center mb-16">
-            <h2 className="text-4xl md:text-5xl font-bold mb-6">
-              Powerful Features for{" "}
-              <span>
-                Creative Teams
-              </span>
+            <h2 className="text-3xl md:text-4xl font-bold mb-6">
+              Powerful Features for <span>Creative Teams</span>
             </h2>
             <p className="text-xl text-muted-foreground">
               Everything you need to bring your ideas to life, together.
